@@ -59,12 +59,16 @@
             const im = new Image();
             im.src = `https://manga-api.ig1711.workers.dev/chapter/${id}/${page + 4}`;
           }
+          document.body?.scrollTop = 0;
+          document.documentElement?.scrollTop = 0;
         } else {
           // left
           if (page <= 0) return;
           page--;
           viewer.setAttribute('src', '');
           viewer.setAttribute('src', `https://manga-api.ig1711.workers.dev/chapter/${id}/${page}`);
+          document.body?.scrollTop = 0;
+          document.documentElement?.scrollTop = 0;
         }
       });
     }
