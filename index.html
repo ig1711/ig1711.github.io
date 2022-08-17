@@ -10,45 +10,13 @@
     <div id="container"></div>
 
     <script type="module">
-      // const imageLinks = [
-      //   'https://uploads.mangadex.org/data/d5ecc148a5c60aebae2a52ac95d35bf2/p1-f5fd660f640abd853ea463baa774eb1758c854757fcf4d3b8ad7f35230799c7e.jpg',
-      //   'https://uploads.mangadex.org/data/d5ecc148a5c60aebae2a52ac95d35bf2/p2-a778f5c2f556976a69ddff6d9c63743f46bfa5b9c4f25bdb4a35323d522a7482.jpg',
-      //   'https://uploads.mangadex.org/data/d5ecc148a5c60aebae2a52ac95d35bf2/p3-180586ae5985549c2e5b097f8bcf4e3e575ce01d3f35ea8d08d3b43e461a8633.jpg',
-      //   'https://uploads.mangadex.org/data/d5ecc148a5c60aebae2a52ac95d35bf2/p4-d6855430889d0fd73e71c2367d98cb04d201719670a3c8d378ac06b195c5edb4.jpg'
-      // ];
-
-      const data = await getChapter('fd9398dd-e008-46c0-b3f3-31aaa28c04ea');
-      const page = `${data.baseUrl}/data/${data.chapter.hash}/${data.chapter.data[0]}`;
-
       const containerElement = document.getElementById('container');
 
       const imgElement = document.createElement('img');
-      imgElement.setAttribute('src', page);
+      imgElement.setAttribute('src', 'https://manga-api.ig1711.workers.dev/chapter/fd9398dd-e008-46c0-b3f3-31aaa28c04ea/2');
 
       containerElement.append(imgElement);
 
-      async function getChapter(id) {
-        const route = `/at-home/server/${id}`;
-        return await callMangadex(route, []);
-      }
-
-      async function callMangadex(route, params) {
-        const baseUrl = 'https://api.mangadex.org';
-        const init = {
-          method: 'GET',
-          headers: {
-            Accept: 'application/json',
-          },
-        };
-        const paramPairs = params
-          .map(({ name, value }) => `${name}=${value}`)
-          .join('&');
-        const paramString = paramPairs.length ? `?${paramPairs}` : '';
-        const url = `${baseUrl}${route}${paramString}`;
-
-        const response = await fetch(url, init);
-        return await response.json();
-      }
     </script>
   </body>
 </html>
