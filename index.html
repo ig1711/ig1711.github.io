@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test</title>
+</head>
+<body>
+
+  <div id="container">
+
+  </div>
+
+  <script>
+    const imageLinks = [
+      'https://uploads.mangadex.org/data/d5ecc148a5c60aebae2a52ac95d35bf2/p1-f5fd660f640abd853ea463baa774eb1758c854757fcf4d3b8ad7f35230799c7e.jpg',
+      'https://uploads.mangadex.org/data/d5ecc148a5c60aebae2a52ac95d35bf2/p2-a778f5c2f556976a69ddff6d9c63743f46bfa5b9c4f25bdb4a35323d522a7482.jpg',
+      'https://uploads.mangadex.org/data/d5ecc148a5c60aebae2a52ac95d35bf2/p3-180586ae5985549c2e5b097f8bcf4e3e575ce01d3f35ea8d08d3b43e461a8633.jpg',
+      'https://uploads.mangadex.org/data/d5ecc148a5c60aebae2a52ac95d35bf2/p4-d6855430889d0fd73e71c2367d98cb04d201719670a3c8d378ac06b195c5edb4.jpg'
+    ];
+
+    const containerElement = document.getElementById('container');
+    
+    const imgElement = document.createElement('img');
+    imgElement.setAttribute('src', 'https://uploads.mangadex.org/data/d5ecc148a5c60aebae2a52ac95d35bf2/p2-a778f5c2f556976a69ddff6d9c63743f46bfa5b9c4f25bdb4a35323d522a7482.jpg');
+
+    containerElement.append(imgElement);
+  </script>
+</body>
+</html>
