@@ -11,22 +11,64 @@
 <body>
   <div id="container">
     <img id="viewer">
+    <div id="info">
+      <span id="page"></span>
+      <span id="chapter"></span>
+      <span id="volume"></span>
+      <span id="title"></span>
+      <div id="links">
+        <a href="#previous" id="pre">Previous Chapter</a>
+        <a href="#next" id="next">Next Chapter</a>
+      </div>
+    </div>
   </div>
 
   <style>
     body {
-      background: #101211;
+      background-image: linear-gradient(45deg, #424549, #282b30);
+    }
+
+    #info {
+      color: white;
+      display: grid;
+      gap: 1rem;
+      padding: 2rem;
+      border-radius: 0.2rem;
+    }
+
+    #page,
+    #chapter,
+    #volume,
+    #title,
+    #pre,
+    #next {
+      color: white;
+      text-decoration: none;
+      border: 1px solid white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.2rem;
+    }
+
+    #links {
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
     }
 
     #container {
       display: grid;
       grid-template-columns: 1fr;
       justify-items: center;
+      align-content: center;
       width: 100%;
+      padding: 2rem 0;
+      gap: 2rem;
     }
 
     #viewer {
       max-width: 100%;
+      border-radius: 0.2rem;
+      box-shadow: 0 25px 30px -12px rgb(0 0 0);
     }
   </style>
 
@@ -36,11 +78,19 @@
 
     if (id) {
       const viewer = document.getElementById('viewer');
+      const chapter = document.getElementById('chapter');
+      const volume = document.getElementById('volume');
+      const title = document.getElementById('title');
+      const pageNumber = document.getElementById('page');
       viewer.setAttribute('src', `https://manga-api.ig1711.workers.dev/chapter/${id}/${0}`);
 
 
       const response = await fetch(`https://manga-api.ig1711.workers.dev/chapter/${id}`);
       const data = await response.json();
+
+      volume.textContent = `Volume: ${data.volume}`;
+      chapter.textContent = `Chapter: ${data.chapter}`;
+      title.textContent = `Title: ${data.title}`;
 
       for (let i = 0; i < 5 && i < data.count; i++) {
         const im = new Image();
@@ -48,6 +98,7 @@
       }
 
       let page = 0;
+      pageNumber.textContent = `Page: ${page + 1}`;
       viewer.addEventListener('click', e => {
         if (e.offsetX > e.target.clientWidth / 2) {
           // right
@@ -55,6 +106,7 @@
           page++;
           viewer.setAttribute('src', '');
           viewer.setAttribute('src', `https://manga-api.ig1711.workers.dev/chapter/${id}/${page}`);
+          pageNumber.textContent = `Page: ${page + 1}`;
           if (page + 4 < data.count) {
             const im = new Image();
             im.src = `https://manga-api.ig1711.workers.dev/chapter/${id}/${page + 4}`;
@@ -67,10 +119,19 @@
           page--;
           viewer.setAttribute('src', '');
           viewer.setAttribute('src', `https://manga-api.ig1711.workers.dev/chapter/${id}/${page}`);
+          pageNumber.textContent = `Page: ${page + 1}`;
           if (document.body) document.body.scrollTop = 0;
           if (document.documentElement) document.documentElement.scrollTop = 0;
         }
       });
+
+      const pre = document.getElementById('pre');
+      const next = document.getElementById('next');
+
+      const response2 = await fetch(`https://manga-api.ig1711.workers.dev/adjacentchapters/${id}`);
+      const data1 = await response2.json();
+      pre.href = data1.previous ? `${url.origin}/p?id=${data1.previous}` : '#previous';
+      next.href = data1.next ? `${url.origin}/p?id=${data1.next}` : '#next';
     }
   </script>
 </body>
