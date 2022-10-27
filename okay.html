@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Resizer</title>
+  </head>
+
+  <body>
+    <canvas id="canvas" />
+  </body>
+</html>
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+  }
+</style>
+
+<script type="module">
+  const context = canvas.getContext('2d');
+  context.globalAlpha = 0.5;
+
+  const cursor = {
+    x: innerWidth / 2,
+    y: innerHeight / 2,
+  };
+
+  let xDir = 1;
+  let yDir = 1;
+  const speed = 5;
+
+  let particlesArray = [];
+
+  generateParticles(30);
+  setSize();
+  anim();
+
+  // addEventListener("mousemove", (e) => {
+  //   cursor.x = e.clientX;
+  //   cursor.y = e.clientY;
+  // });
+
+  addEventListener(
+    'touchmove',
+    e => {
+      e.preventDefault();
+      cursor.x = e.touches[0].clientX;
+      cursor.y = e.touches[0].clientY;
+    },
+    { passive: false }
+  );
+
+  addEventListener('resize', () => setSize());
+
+  function generateParticles(amount) {
+    for (let i = 0; i < amount; i++) {
+      particlesArray[i] = new Particle(
+        innerWidth / 2,
+        innerHeight / 2,
+        4,
+        generateColor(),
+        0.1,
+        i
+      );
+    }
+  }
+
+  function generateColor() {
+    let hexSet = '0123456789ABCDEF';
+    let finalHexString = '#';
+    for (let i = 0; i < 6; i++) {
+      finalHexString += hexSet[Math.ceil(Math.random() * 15)];
+    }
+    return finalHexString;
+  }
+
+  function setSize() {
+    canvas.height = innerHeight;
+    canvas.width = innerWidth;
+  }
+
+  function Particle(x, y, particleTrailWidth, strokeColor, rotateSpeed, theta) {
+    this.x = x;
+    this.y = y;
+    this.particleTrailWidth = particleTrailWidth;
+    this.strokeColor = strokeColor;
+    // this.theta = Math.random() * Math.PI * 2;
+    this.theta = theta;
+    this.rotateSpeed = rotateSpeed;
+    // this.t = Math.random() * 150;
+    this.t = 90;
+
+    this.rotate = () => {
+      const ls = {
+        x: this.x,
+        y: this.y,
+      };
+      this.theta += this.rotateSpeed;
+      this.x = cursor.x + Math.cos(this.theta) * this.t;
+      this.y = cursor.y + Math.sin(this.theta) * this.t;
+      context.beginPath();
+      context.lineWidth = this.particleTrailWidth;
+      context.strokeStyle = this.strokeColor;
+      context.moveTo(ls.x, ls.y);
+      context.lineTo(this.x, this.y);
+      context.stroke();
+    };
+  }
+
+  function anim() {
+    if (cursor.x <= innerWidth && cursor.x >= 0) {
+      cursor.x += xDir * speed;
+    } else {
+      xDir *= -1;
+      cursor.x += xDir * speed;
+    }
+    if (cursor.y <= innerHeight && cursor.y >= 0) {
+      cursor.y += yDir * speed;
+    } else {
+      yDir *= -1;
+      cursor.y += yDir * speed;
+    }
+
+    requestAnimationFrame(anim);
+
+    context.fillStyle = 'rgba(0,0,0,0.05)';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    particlesArray.forEach(particle => particle.rotate());
+  }
+</script>
