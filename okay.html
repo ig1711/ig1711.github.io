@@ -28,8 +28,8 @@
     y: Math.random() * innerHeight,
   };
 
-  let xDir = 1;
-  let yDir = 1;
+  let xDir = 1.3;
+  let yDir = 1.7;
   const speed = 5;
 
   let particlesArray = [];
@@ -58,8 +58,8 @@
   function generateParticles(amount) {
     for (let i = 0; i < amount; i++) {
       particlesArray[i] = new Particle(
-        innerWidth / 2,
-        innerHeight / 2,
+        cursor.x,
+        cursor.y,
         4,
         generateColor(),
         0.1,
