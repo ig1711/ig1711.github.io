@@ -91,7 +91,7 @@
     this.theta = theta;
     this.rotateSpeed = rotateSpeed;
     // this.t = Math.random() * 150;
-    this.t = 90;
+    this.t = 2 * Math.PI / 30;
 
     this.rotate = () => {
       const ls = {
@@ -114,13 +114,13 @@
     if (cursor.x <= innerWidth && cursor.x >= 0) {
       cursor.x += xDir * speed;
     } else {
-      xDir *= -1;
+      xDir *= -2 * Math.random();
       cursor.x += xDir * speed;
     }
     if (cursor.y <= innerHeight && cursor.y >= 0) {
       cursor.y += yDir * speed;
     } else {
-      yDir *= -1;
+      yDir *= -2 * Math.random();
       cursor.y += yDir * speed;
     }
 
