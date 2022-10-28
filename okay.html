@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Image Resizer</title>
+    <title>DVD Player</title>
   </head>
 
   <body>
@@ -43,15 +43,15 @@
   //   cursor.y = e.clientY;
   // });
 
-  addEventListener(
-    'touchmove',
-    e => {
-      e.preventDefault();
-      cursor.x = e.touches[0].clientX;
-      cursor.y = e.touches[0].clientY;
-    },
-    { passive: false }
-  );
+//   addEventListener(
+//     'touchmove',
+//     e => {
+//       e.preventDefault();
+//       cursor.x = e.touches[0].clientX;
+//       cursor.y = e.touches[0].clientY;
+//     },
+//     { passive: false }
+//   );
 
   addEventListener('resize', () => setSize());
 
