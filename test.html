@@ -1,0 +1,25 @@
+<!Doctype html>
+
+<head>
+  <title>RAQ</title>
+  <meta property="og:title" content="RAQ" />
+  <meta property="og:description" content="Random Anime Quote" />
+</head>
+
+<style>
+  :root {
+    color-scheme: light dark;
+  }
+</style>
+
+<html>
+  <body>
+    <h1 id="quote"></h1>
+  </body>
+<html>
+
+<script type="module">
+  const response = await fetch("https://animechan.xyz/api/random").catch(console.log);
+  const data = await response.json().catch(console.log);
+  quote.textContent = data?.quote || 'error retrieving quote';
+</script>
