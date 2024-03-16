@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicko</title>
+</head>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Gemunu+Libre&display=swap');
+
+    :root {
+        color-scheme: light dark;
+    }
+
+    #clicko {
+        height: 48px;
+        width: 48px;
+        position: fixed;
+        border-radius: 50%;
+        background-color: blue;
+        z-index: 10;
+    }
+
+    #man, #res {
+        font-family: "Gemunu Libre", sans-serif;
+        font-size: xx-large;
+    }
+</style>
+
+<body>
+    <h3 id="man">Click the cirlce to start and Spacebar to stop</h3>
+    <h3 id="res"></h3>
+    <div id="clicko" />
+</body>
+</html>
+
+<script type="module">
+let pTime = 0;
+let intervals = [];
+
+clicko.addEventListener('click', () => {
+    man.style.display = 'none';
+    res.style.display = 'none';
+    clicko.style.inset = genInset();
+    
+    const now = Date.now();
+    if (pTime) intervals.push(now - pTime);
+    pTime = now;
+});
+
+function genInset() {
+    const t = Math.random() * (innerHeight - 48);
+    const l = Math.random() * (innerWidth - 48);
+    return `${t}px auto auto ${l}px`;
+}
+
+addEventListener('keypress', e => {
+    if (e.code !== 'Space') return;
+    console.log(intervals);
+    man.style.display = 'block';
+    res.textContent = `Last game result: Average response time is ${Math.round(intervals.reduce((a, b) => a + b) / intervals.length)} millisecond`;
+    res.style.display = 'block';
+    pTime = 0;
+    intervals = [];
+});
+</script>
