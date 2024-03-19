@@ -26,11 +26,28 @@
         font-family: "Gemunu Libre", sans-serif;
         font-size: xx-large;
     }
+
+    #res {
+        display: none;
+    }
+
+    #start {
+        color: blue;
+    }
+
+    #stop {
+        color: red;
+    }
+
+    #mres {
+        color: #ff05a9;
+        text-decoration: underline;
+    }
 </style>
 
 <body>
-    <h3 id="man">Click the cirlce to start and Spacebar to stop</h3>
-    <h3 id="res"></h3>
+    <h3 id="man">Click the cirlce to <span id="start">start</span> and press spacebar or touch anywhere with two or more fingers to <span id="stop">stop</span></h3>
+    <h3 id="res">Last game result: Average response time is <span id="mres">####</span> millisecond</h3>
     <div id="clicko" />
 </body>
 </html>
@@ -55,13 +72,24 @@ function genInset() {
     return `${t}px auto auto ${l}px`;
 }
 
-addEventListener('keypress', e => {
-    if (e.code !== 'Space') return;
+function handleEnd() {
     console.log(intervals);
     man.style.display = 'block';
-    res.textContent = `Last game result: Average response time is ${Math.round(intervals.reduce((a, b) => a + b) / intervals.length)} millisecond`;
-    res.style.display = 'block';
+    if (intervals.length >= 1) {
+        mres.textContent = Math.round(intervals.reduce((a, b) => a + b) / intervals.length);
+        res.style.display = 'block';
+    }
     pTime = 0;
     intervals = [];
+}
+
+addEventListener('keypress', e => {
+    if (e.code !== 'Space') return;
+    handleEnd();
+});
+
+addEventListener('touchstart', e => {
+    if (e.targetTouches.length <= 1) return;
+    handleEnd();
 });
 </script>
